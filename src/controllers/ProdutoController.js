@@ -21,9 +21,7 @@ exports.createProduto = async(req, res) => {
 exports.listProdutoByCategoria = async(req, res) => {
     const { idCategoria } = req.params;
     const response = await db.query(
-        "SELECT * FROM produto as A INNER JOIN produtoCategoria as B ON A.categoriaprodutoId = B.id WHERE B.ID = ($1)", [idCategoria], (err, res) =>{
-            console.log(res);
-        }
+        "SELECT * FROM produto as A INNER JOIN produtoCategoria as B ON A.categoriaprodutoId = B.id WHERE B.ID = ($1)", [idCategoria]
     )
 
     res.status(200).send({
