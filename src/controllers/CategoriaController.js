@@ -47,7 +47,7 @@ exports.deleteById = async(req, res) => {
 
     if(produtos.rowCount > 0){
         await db.query(
-            "DELETE FROM produto WHERE categoriaproduto = ($1)", [id]
+            "DELETE FROM produto WHERE categoriaprodutoid = ($1)", [id]
         )
         await db.query(
             "DELETE FROM produtoCategoria WHERE id = ($1)", [id]
