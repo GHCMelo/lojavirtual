@@ -9,6 +9,7 @@ const ProdutoController = require('./controllers/ProdutoController')
 router.post('/categoria', CategoriaController.createProdutoCategoria)
 router.get('/categoria', CategoriaController.listAllCategories)
 router.get('/categoria/:id', CategoriaController.listById)
+router.delete('/categoria/:id', CategoriaController.deleteById)
 
 //Rotas produtos
 router.post('/produto', ProdutoController.createProduto)

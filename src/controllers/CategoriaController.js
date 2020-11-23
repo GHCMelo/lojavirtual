@@ -37,3 +37,14 @@ exports.listById = async (req, res) => {
         })
     }
 }
+
+exports.deleteById = async(req, res) => {
+    const { id } = req.params
+    const response = await db.query(
+        "DELETE * FROM produtoCategoria WHERE id = ($1)", [id]
+    )
+
+    res.status(200).send({
+        Mensagem: `Produto id ${id} deletado com sucesso!`
+    })
+}
