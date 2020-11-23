@@ -20,3 +20,14 @@ exports.listAllCategories = async (req, res) => {
         Categorias: response.rows
     })
 }
+
+exports.listById = async (req, res) => {
+    const id = req.params
+    const response = await db.query(
+        "SELECT * FROM produtoCategoria WHERE id = ($1)", [id]
+    )
+
+    res.status(200).send({
+        Categoria: response.rows
+    })
+}
