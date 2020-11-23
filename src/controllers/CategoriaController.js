@@ -23,14 +23,10 @@ exports.listAllCategories = async (req, res) => {
 
 exports.listById = async (req, res) => {
     const id = req.params
-    try {
-        const response = await db.query(
+    console.log(id);
+    const response = await db.query(
         "SELECT * FROM produtoCategoria WHERE id = ($1)", [id]
-        )
-        return response
-    } catch(e){
-        console.log(e)
-    }
+    )
 
     res.status(200).send({
         Categoria: response.rows
