@@ -28,3 +28,13 @@ exports.listProdutoByCategoria = async(req, res) => {
         Produtos: response.rows
     })
 }
+
+exports.listAllProducts = async(req, res) => {
+    const response = await db.query(
+        "SELECT * FROM produto"
+    )
+
+    res.status(200).send({
+        Produtos: response.rows
+    })
+}
