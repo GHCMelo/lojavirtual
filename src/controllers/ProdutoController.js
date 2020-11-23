@@ -1,4 +1,3 @@
-const { response } = require('../app');
 const db = require('../config/database');
 
 exports.createProduto = async(req, res) => {
@@ -42,7 +41,7 @@ exports.listAllProducts = async(req, res) => {
 exports.listById = async (req, res) => {
     const { id } = req.params
     const response = await db.query(
-        "SELECT * FROM produto WHERE id = ($1)", [id]
+        "SELECT * FROM produto WHERE idProduto = ($1)", [id]
     )
 
     if(response.rowCount === 0){
