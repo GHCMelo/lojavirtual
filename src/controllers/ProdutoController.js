@@ -55,3 +55,16 @@ exports.listById = async (req, res) => {
         Produto: response.rows
     })
 }
+
+exports.deleteById = async (req, res) => {
+    const { id } = req.params;
+    const produto = await db.query(
+        "SELECT * FROM produto WHERE idProduto = ($1)", [id]
+    )
+    if(produto.rowCount > 0){
+        await db.query("DELETE FROM produto WHERE idProduto = ($1)", [id])
+        res.status(200).send({ Message: "Produto deletado com sucesso"})
+    } else{
+        res.status(200).send({ Message: "Produto não encontrado."})
+    }
+}
