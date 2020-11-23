@@ -7,6 +7,7 @@ const ProdutoController = require('./controllers/ProdutoController')
 
 //Rotas categorias
 router.post('/categoria', CategoriaController.createProdutoCategoria)
+router.get('/categoria', CategoriaController.listAllCategories)
 
 //Rotas produtos
 router.post('/produto', ProdutoController.createProduto)

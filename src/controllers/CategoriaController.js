@@ -10,3 +10,13 @@ exports.createProdutoCategoria = async (req, res) => {
         message: "Categoria adicionada com sucesso"
     })
 }
+
+exports.listAllCategories = async (req, res) => {
+    const response = await db.query(
+        "SELECT * FROM produtoCategoria"
+    )
+
+    res.status(201).send({
+        Categorias: response.rows
+    })
+}
