@@ -38,3 +38,21 @@ exports.listAllProducts = async(req, res) => {
         Produtos: response.rows
     })
 }
+
+exports.listById = async (req, res) => {
+    const { id } = req.params
+    const response = await db.query(
+        "SELECT * FROM produto WHERE id = ($1)", [id]
+    )
+
+    if(response.rowCount === 0){
+        res.status(200).send({
+            Mensagem: "Não encontrado produto com este identificador."
+        })
+        return false
+    }
+
+    res.status(200).send({
+        Produto: response.rows
+    })
+}
