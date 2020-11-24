@@ -6,11 +6,10 @@ exports.createUser = (req, res) => {
     const { name, username, password, confirm_password, email } = req.body
     const date = new Date()
     const year = date.getFullYear()
-    const month = date.getMonth()
-    const day = date.getDay()
+    const month = (date.getMonth() + 1)
+    const day = date.getDate()
     const is_active = true
-    console.log(year, month, day)
-    const creation_date = year + month + day
+    const creation_date = `${year}${month}${day}`
     console.log(creation_date)
 
     if(!name || !username || !password || !confirm_password || !email){
