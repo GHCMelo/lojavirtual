@@ -2,14 +2,13 @@ const db = require('../config/database');
 const { use } = require('../routes');
 const bcrypt = require('bcrypt');
 
+const HelperGetFullDate = require('../helpers/HelperGetFullDate')
+
 exports.createUser = async (req, res) => {
     const { name, username, password, confirm_password, email } = req.body
-    const date = new Date()
-    const year = date.getFullYear()
-    const month = (date.getMonth() + 1)
-    const day = date.getDate()
     const is_active = true
-    const creation_date = `${year}${month}${day}`
+    const getFullTimeStamp = HelperGetFullDate;
+    const creation_date = getFullTimeStamp.GetFullDate()
 
     if(!name || !username || !password || !confirm_password || !email){
         res.status(401).send({ Message: "Necessário preenchimento dos campos obrigatórios" })
