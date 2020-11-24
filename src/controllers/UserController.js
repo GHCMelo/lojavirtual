@@ -35,7 +35,7 @@ exports.createUser = (req, res) => {
             return false
         }
         const insert = db.query(
-            "INSERT INTO users (name, username, password, email, creation_date, is_active) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, name, email INTO last_id",
+            "INSERT INTO users (name, username, password, email, creation_date, is_active) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, name, email",
             [name, username, hash, email, creation_date, is_active], (err, response) =>{
                 if(err){
                     res.status(401).send({ Erro: err })
