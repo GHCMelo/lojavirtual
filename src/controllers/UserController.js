@@ -101,19 +101,19 @@ exports.userLogin = async (req, res) => {
     if(user.rowCount > 0){
         const dbPassword = user.rows[0].password
         const dbId = user.rows[0].id
-        const Match = bcrypt.compare(password, dbPassword)
-            if( !Match ) {
+        await bcrypt.compare(password, dbPassword, (err, equals) =>{
+            if(equals === false){
                 res.status(404).send({ Message: "Senha incorreta" })
                 return false
+            } else {
+                const token = jwt.sign({ dbId }, process.env.JWT_SECRET, {
+                    expiresIn: 3600
+                })
+                res.status(200).send({
+                    UserId: dbId,
+                    Token: `Bearer ${token}`
+                })
             }
-
-            const token = jwt.sign({ dbId }, process.env.JWT_SECRET, {
-                expiresIn: 3600
-            })
-            res.status(200).send({
-                UserId: dbId,
-                Token: `Bearer ${token}`
-            })
-        
+        })
     }
 }
