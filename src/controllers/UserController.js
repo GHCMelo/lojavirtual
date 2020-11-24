@@ -30,7 +30,7 @@ exports.createUser = (req, res) => {
             return false
         }
         db.query(
-            "INSERT INTO user (name, username, password, email, creation_date, is_active) VALUES ($1, $2, $3, $4, $5, $6)",
+            "INSERT INTO 'user' (name, username, password, email, creation_date, is_active) VALUES ($1, $2, $3, $4, $5, $6)",
             [name, username, hash, email, creation_date, is_active]
         )
 
