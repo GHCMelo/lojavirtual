@@ -24,6 +24,7 @@ router.put('/produto/:id', ProdutoController.updateById)
 //Rotas user
 router.post('/user', UserController.createUser)
 router.get('/user', UserController.listUsers)
+router.get('/user/:id', UserController.getUserById)
 
 module.exports = router
 

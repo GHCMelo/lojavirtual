@@ -44,9 +44,9 @@ exports.createUser = async (req, res) => {
             })
             return false
         }
-        const insert = db.query(
-            "INSERT INTO users (name, username, password, email, creation_date, is_active) VALUES ($1, $2, $3, $4, $5, $6)",
-            [name, username, hash, email, creation_date, is_active]
+        db.query(
+            "INSERT INTO users (name, username, password, email, creation_date, is_active) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+            [name, username, hash, email, creation_date, is_active],
         )
 
         res.status(201).send({ 
@@ -69,5 +69,24 @@ exports.listUsers = async (req, res) =>{
 
     res.status(200).send({
         Message: "Nenhum usuário cadastrado"
+    })
+}
+
+exports.getUserById = async (req, res) => {
+    const { id } = req.params
+    console.log(id)
+    const user = await db.query(
+        "SELECT name, username, email, creation_date, is_active FROM users WHERE id = ($1)", [id]
+    )
+
+    if(user.rowCount > 0){
+        res.status(200).send({
+            User: user.rows
+        })
+        return true
+    }
+
+    res.status(200).send({
+        Message: "Não encontramos usuário com este ID"
     })
 }
