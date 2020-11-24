@@ -73,3 +73,29 @@ exports.deleteById = async (req, res) => {
         res.status(200).send({ Message: "Produto não encontrado."})
     }
 }
+
+exports.updateById = async (req, res) => {
+    const { id, name, description, cost, } = req.body;
+    if( !id || !name || !!description || !cost){
+        res.status(400).send({ Message: "Necessário preencher todos os campos" })
+        return false
+    }
+
+    const getProduct = await db.query(
+        "SELECT * FROM product WHERE id = ($1)", [id]
+    )
+
+    if(getProduct.rowCount > 0){
+        await db.query(
+            "UPDATE product SET name = ($1), description = ($2), cost = ($3) WHERE id = ($4)", [name, description, cost, id]
+        )
+        res.status(200).send({
+            Message: "Produto atualizado"
+        })
+    } else{
+        res.status(404).send({
+            Message: `Produto com ${id} não encontrado no banco de dados`
+        })
+        return false
+    }
+}

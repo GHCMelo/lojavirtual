@@ -18,6 +18,7 @@ router.get('/produto/categoria/:idCategoria', ProdutoController.listProdutoByCat
 router.get('/produto', ProdutoController.listAllProducts)
 router.get('/produto/:id', ProdutoController.listById)
 router.delete('/produto/:id', ProdutoController.deleteById)
+router.put('/produto/:id', ProdutoController.updateById)
 
 module.exports = router
 
