@@ -2,7 +2,7 @@ const db = require('../config/database');
 const { use } = require('../routes');
 const bcrypt = require('bcrypt');
 
-exports.createUser = async (req, res) =>{
+exports.createUser = async (req, res) => {
     const { name, username, password, confirm_password, email } = req.body
     const creation_date = Date.now()
     const is_active = true
@@ -29,7 +29,7 @@ exports.createUser = async (req, res) =>{
             })
             return false
         }
-        await db.query(
+        db.query(
             "INSERT INTO user (name, username, password, email, creation_date, is_active) VALUES ($1), ($2), ($3), ($4), ($5), ($6)",
             [name, username, hash, email, creation_date, is_active]
         )
