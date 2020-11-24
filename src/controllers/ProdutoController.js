@@ -3,7 +3,7 @@ const db = require('../config/database');
 exports.createProduto = async(req, res) => {
     const { name, description, cost, categoriaProduto } = req.body
     const { rows } = db.query(
-        "INSERT INTO produto (name, description, cost, categoriaProdutoId) VALUES ($1, $2, $3, $4)", [name, description, cost, categoriaProduto]
+        "INSERT INTO product (name, description, cost, categoriaProdutoId) VALUES ($1, $2, $3, $4)", [name, description, cost, categoriaProduto]
     )
 
     res.status(201).send({
@@ -20,7 +20,7 @@ exports.createProduto = async(req, res) => {
 exports.listProdutoByCategoria = async(req, res) => {
     const { idCategoria } = req.params;
     const response = await db.query(
-        "SELECT * FROM produto as A INNER JOIN produtoCategoria as B ON A.categoriaprodutoId = B.id WHERE B.ID = ($1)", [idCategoria]
+        "SELECT * FROM product as A INNER JOIN produtoCategoria as B ON A.categoriaprodutoId = B.id WHERE B.ID = ($1)", [idCategoria]
     )
 
     if(response.rowCount > 0){
@@ -35,7 +35,7 @@ exports.listProdutoByCategoria = async(req, res) => {
 
 exports.listAllProducts = async(req, res) => {
     const response = await db.query(
-        "SELECT * FROM produto"
+        "SELECT * FROM product"
     )
 
     res.status(200).send({
@@ -46,7 +46,7 @@ exports.listAllProducts = async(req, res) => {
 exports.listById = async (req, res) => {
     const { id } = req.params
     const response = await db.query(
-        "SELECT * FROM produto WHERE id = ($1)", [id]
+        "SELECT * FROM product WHERE id = ($1)", [id]
     )
 
     if(response.rowCount === 0){
@@ -64,10 +64,10 @@ exports.listById = async (req, res) => {
 exports.deleteById = async (req, res) => {
     const { id } = req.params;
     const produto = await db.query(
-        "SELECT * FROM produto WHERE id = ($1)", [id]
+        "SELECT * FROM product WHERE id = ($1)", [id]
     )
     if(produto.rowCount > 0){
-        await db.query("DELETE FROM produto WHERE id = ($1)", [id])
+        await db.query("DELETE FROM product WHERE id = ($1)", [id])
         res.status(200).send({ Message: "Produto deletado com sucesso"})
     } else{
         res.status(200).send({ Message: "Produto não encontrado."})
