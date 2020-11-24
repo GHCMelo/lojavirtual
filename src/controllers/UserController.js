@@ -10,7 +10,6 @@ exports.createUser = (req, res) => {
     const day = date.getDate()
     const is_active = true
     const creation_date = `${year}${month}${day}`
-    console.log(creation_date)
 
     if(!name || !username || !password || !confirm_password || !email){
         res.status(401).send({ Message: "Necessário preenchimento dos campos obrigatórios" })
@@ -34,14 +33,12 @@ exports.createUser = (req, res) => {
             })
             return false
         }
-        db.query(
-            "INSERT INTO users (name, username, password, email, creation_date, is_active) VALUES ($1, $2, $3, $4, $5, $6)",
+        const insert = db.query(
+            "INSERT INTO users (name, username, password, email, creation_date, is_active) VALUES ($1, $2, $3, $4, $5, $6) RETURNING * INTO last_id",
             [name, username, hash, email, creation_date, is_active], (err, response) =>{
                 if(err){
                     res.status(401).send({ Erro: err })
-                }
-                else{
-                    console.log(response)
+                    return false
                 }
             }
         )
