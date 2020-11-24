@@ -16,7 +16,7 @@ exports.listAllCategories = async (req, res) => {
         "SELECT * FROM produtoCategoria"
     )
 
-    res.status(201).send({
+    res.status(200).send({
         Categorias: response.rows
     })
 }
