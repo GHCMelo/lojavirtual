@@ -51,7 +51,6 @@ exports.createUser = async (req, res) => {
 
         res.status(201).send({ 
             Message: "Usuário criado com sucesso",
-            User: insert.rpw
         })
     })
 }
