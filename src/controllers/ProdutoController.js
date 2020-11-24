@@ -1,17 +1,17 @@
 const db = require('../config/database');
 
 exports.createProduto = async(req, res) => {
-    const { nome, descricao, valor, categoriaProduto } = req.body
+    const { name, description, cost, categoriaProduto } = req.body
     const { rows } = db.query(
-        "INSERT INTO produto (nome, descricao, valor, categoriaProdutoId) VALUES ($1, $2, $3, $4)", [nome, descricao, valor, categoriaProduto]
+        "INSERT INTO produto (name, description, cost, categoriaProdutoId) VALUES ($1, $2, $3, $4)", [name, description, cost, categoriaProduto]
     )
 
     res.status(201).send({
         msg: "Produto adicionado com sucesso",
         produto: {
-            nome,
-            descricao,
-            valor,
+            name,
+            description,
+            cost,
             categoriaProduto
         }
     })
@@ -46,7 +46,7 @@ exports.listAllProducts = async(req, res) => {
 exports.listById = async (req, res) => {
     const { id } = req.params
     const response = await db.query(
-        "SELECT * FROM produto WHERE idProduto = ($1)", [id]
+        "SELECT * FROM produto WHERE id = ($1)", [id]
     )
 
     if(response.rowCount === 0){
@@ -64,10 +64,10 @@ exports.listById = async (req, res) => {
 exports.deleteById = async (req, res) => {
     const { id } = req.params;
     const produto = await db.query(
-        "SELECT * FROM produto WHERE idProduto = ($1)", [id]
+        "SELECT * FROM produto WHERE id = ($1)", [id]
     )
     if(produto.rowCount > 0){
-        await db.query("DELETE FROM produto WHERE idProduto = ($1)", [id])
+        await db.query("DELETE FROM produto WHERE id = ($1)", [id])
         res.status(200).send({ Message: "Produto deletado com sucesso"})
     } else{
         res.status(200).send({ Message: "Produto não encontrado."})
