@@ -76,8 +76,8 @@ exports.deleteById = async (req, res) => {
 
 exports.updateById = async (req, res) => {
     const { id } = req.params
-    const { name, description, cost, } = req.body;
-    if( !name || !!description || !cost){
+    const { name, description, cost } = req.body;
+    if( !name || !description || !cost){
         res.status(400).send({ Message: "Necessário preencher todos os campos" })
         return false
     }
