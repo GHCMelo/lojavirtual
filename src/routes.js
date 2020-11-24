@@ -25,6 +25,7 @@ router.put('/produto/:id', ProdutoController.updateById)
 router.post('/user', UserController.createUser)
 router.get('/user', UserController.listUsers)
 router.get('/user/:id', UserController.getUserById)
+router.post('/login', UserController.userLogin)
 
 module.exports = router
 

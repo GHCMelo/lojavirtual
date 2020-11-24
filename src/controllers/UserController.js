@@ -1,6 +1,7 @@
 const db = require('../config/database');
-const { use } = require('../routes');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 
 const HelperGetFullDate = require('../helpers/HelperGetFullDate')
 
@@ -54,7 +55,7 @@ exports.createUser = async (req, res) => {
     })
 }
 
-exports.listUsers = async (req, res) =>{
+exports.listUsers = async (req, res) => {
     const users = await db.query(
         "SELECT id, name, username, email, creation_date, is_active FROM users"
     )
@@ -88,4 +89,31 @@ exports.getUserById = async (req, res) => {
     res.status(200).send({
         Message: "Não encontramos usuário com este ID"
     })
+}
+
+exports.userLogin = async (req, res) => {
+    const { username, password } = req.body
+
+    const user = await db.query(
+        "SELECT * FROM users WHERE username = ($1)", [ username ]
+    )
+
+    if(user.rowCount > 0){
+        const dbPassword = user.rows[0].password
+        const dbId = user.rows[0].id
+        const Match = bcrypt.compare(password, dbPassword)
+            if( !Match ) {
+                res.status(404).send({ Message: "Senha incorreta" })
+                return false
+            }
+
+            const token = jwt.sign({ dbId }, process.env.JWT_SECRET, {
+                expiresIn: 3600
+            })
+            res.status(200).send({
+                UserId: dbId,
+                Token: `Bearer ${token}`
+            })
+        
+    }
 }
