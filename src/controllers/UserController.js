@@ -1,6 +1,7 @@
 const db = require('../config/database');
 const { use } = require('../routes');
 const bcrypt = require('bcrypt');
+const { response } = require('express');
 
 exports.createUser = (req, res) => {
     const { name, username, password, confirm_password, email } = req.body
@@ -43,6 +44,9 @@ exports.createUser = (req, res) => {
             }
         )
 
-        res.status(201).send({ Message: "Usuário criado com sucesso"})
+        res.status(201).send({ 
+            Message: "Usuário criado com sucesso",
+            User: insert.rows
+        })
     })
 }
