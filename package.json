@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node-dev src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "lint" : "./node_modules/.bin/eslint ."
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
     "pg": "^8.5.1"
   },
   "devDependencies": {
+    "eslint": "^7.14.0",
     "node-dev": "^6.2.0",
     "nodemon": "^2.0.6"
   }
