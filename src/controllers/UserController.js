@@ -31,7 +31,14 @@ exports.createUser = (req, res) => {
         }
         db.query(
             "INSERT INTO 'user' (name, username, password, email, creation_date, is_active) VALUES ($1, $2, $3, $4, $5, $6)",
-            [name, username, hash, email, creation_date, is_active]
+            [name, username, hash, email, creation_date, is_active], (err, response) =>{
+                if(err){
+                    res.status(401).send({ Erro: err })
+                }
+                else{
+                    console.log(response)
+                }
+            }
         )
 
         res.status(201).send({ Message: "Usuário criado com sucesso"})
