@@ -2,7 +2,7 @@ const db = require('../config/database');
 const { use } = require('../routes');
 const bcrypt = require('bcrypt');
 
-exports.createUser = async (req, res) => {
+exports.createUser = (req, res) => {
     const { name, username, password, confirm_password, email } = req.body
     const creation_date = Date.now()
     const is_active = true
