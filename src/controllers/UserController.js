@@ -5,9 +5,9 @@ const bcrypt = require('bcrypt');
 exports.createUser = (req, res) => {
     const { name, username, password, confirm_password, email } = req.body
     const date = new Date()
-    const year = date.getFullYear
-    const month = date.getMonth
-    const day = date.getDay
+    const year = date.getFullYear()
+    const month = date.getMonth()
+    const day = date.getDay()
     const is_active = true
     const creation_date = year + month + day
     console.log(creation_date)
