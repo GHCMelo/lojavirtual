@@ -65,3 +65,20 @@ exports.deleteById = async(req, res) => {
     }
 
 }
+
+exports.updateById = async(req, res) =>{
+    const { id } = req.params
+    const { isAtivo } = req.body
+
+    const categoria = await db.query(
+        "SELECT * FROM produtoCategoria WHERE ID = ($1)", [id]
+    )
+    if(categoria.rowCount > 0){
+        await db.query(
+            "UPDATE produtoCategoria SET isAtivo = ($1)", [isAtivo]
+        )
+        res.status(200).send({ Menssage: "Categoria atualizada com sucesso"})
+    } else{
+        res.status(200).send({ Message: "Não encontrado categoria com este identificador"})
+    }
+}
