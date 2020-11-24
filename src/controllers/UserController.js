@@ -1,9 +1,8 @@
 const db = require('../config/database');
 const { use } = require('../routes');
 const bcrypt = require('bcrypt');
-const { response } = require('express');
 
-exports.createUser = (req, res) => {
+exports.createUser = async (req, res) => {
     const { name, username, password, confirm_password, email } = req.body
     const date = new Date()
     const year = date.getFullYear()
@@ -27,6 +26,17 @@ exports.createUser = (req, res) => {
         return false
     }
 
+    const getUsers = await db.query(
+        "SELECT * FROM users WHERE email = ($1)", [email]
+    )
+
+    if(getUsers.rowCount > 0){
+        res.status(401).send({
+            Message: "E-mail já cadastrado"
+        })
+        return false
+    }
+
     bcrypt.hash(password, 10, (err, hash) => {
         if(err){
             res.status(401).send({
@@ -35,18 +45,30 @@ exports.createUser = (req, res) => {
             return false
         }
         const insert = db.query(
-            "INSERT INTO users (name, username, password, email, creation_date, is_active) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, name, email",
-            [name, username, hash, email, creation_date, is_active], (err, response) =>{
-                if(err){
-                    res.status(401).send({ Erro: err })
-                    return false
-                }
-            }
+            "INSERT INTO users (name, username, password, email, creation_date, is_active) VALUES ($1, $2, $3, $4, $5, $6)",
+            [name, username, hash, email, creation_date, is_active]
         )
 
         res.status(201).send({ 
             Message: "Usuário criado com sucesso",
-            User: insert.rows
+            User: insert.rpw
         })
+    })
+}
+
+exports.listUsers = async (req, res) =>{
+    const users = await db.query(
+        "SELECT id, name, username, email, creation_date, is_active FROM users"
+    )
+
+    if(users.rowCount > 0){
+        res.status(200).send({
+            Users: users.rows
+        })
+        return true
+    }
+
+    res.status(200).send({
+        Message: "Nenhum usuário cadastrado"
     })
 }
