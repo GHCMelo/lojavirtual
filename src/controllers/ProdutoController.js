@@ -23,9 +23,14 @@ exports.listProdutoByCategoria = async(req, res) => {
         "SELECT * FROM produto as A INNER JOIN produtoCategoria as B ON A.categoriaprodutoId = B.id WHERE B.ID = ($1)", [idCategoria]
     )
 
-    res.status(200).send({
-        Produtos: response.rows
-    })
+    if(response.rowCount > 0){
+        res.status(200).send({
+            Produtos: response.rows
+        })
+    } else{
+        res.status(200).send({ Message: "Nenhum produto encontrado nesta categoria."})
+    }
+
 }
 
 exports.listAllProducts = async(req, res) => {
