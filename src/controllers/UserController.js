@@ -9,6 +9,7 @@ exports.createUser = (req, res) => {
     const month = date.getMonth()
     const day = date.getDay()
     const is_active = true
+    console.log(year, month, day)
     const creation_date = year + month + day
     console.log(creation_date)
 
